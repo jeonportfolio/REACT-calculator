@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-
 
 
 const COLOR = {
@@ -41,23 +40,51 @@ const Button = ({ text, onPress, flex, type, isSelected }) => {
   )
 }
 
-
   
 
 
 export default () => {
+    const [input, setInput] = useState(0); //처음 입력값 (결과값 화면에 표시되는 숫자)
+    const [currentOperator, setcurrentOperator] = useState(null);// 연산자 설정 
+    const [result, setResult] = useState(null);// 두번째 입력값 기억  
+    const [tempInput, setTempInput] = useState(null);
+    const [tempOperator, setTempOperator] = useState(null);
+
+    const onPressNum = (num) => {
+        const newInput = Number(`${input}${num}`)
+        //num은 숫자이기 때문에 더하면 덧셈이 된다 문자화 시킨다. 하지만 0은 없어져야 하기때문에 다시 숫자화
+        setInput(newInput);
+    }
+
+    
+
     return(
-    <View style= {{flex: 1, width:250}}>
+    <View style= {{flex: 1, width:250, justifyContent:"center"}}>
             {/*부모 component에서 flex 1로 가득채워줘야 표시가 가능   */}
+
+          <Text>input: {input}</Text>
+          <Text>currentOperator: {currentOperator}</Text>
+          <Text>result: {result}</Text>
+          <Text>tempInput: {tempInput}</Text>
+          <Text>tempOperator: {tempOperator}</Text>
       {/* 결과 */}
-      
+      <View style= {{ 
+        backgroundColor:COLOR.RESULT,
+        minHeight:50,
+        justifyContent:"center",
+        alignItems: "flex-end",
+        padding: 5,  
+      }}>
+            <Text style={{ color: "white", fontSize: 35}}>{input}</Text>
+      </View>
 
       {/* [AC ~ /] */}
     <View>
+        
             <Button
                 type="reset"
                 text="AC"
-                onPress={() => null}
+                onPress={() => null }
                 flex={3} 
             />
              <Button
@@ -70,24 +97,15 @@ export default () => {
 
       {/* [7 ~ x] */}
       <View style={{ flexDirection: "row", width:"100%"}}>
-            <Button
+            {[7,8,9].map((num) => (
+                <Button
                 type="num"
-                text="7"
-                onPress={() => null}
+                text={`${num}`}
+                onPress={() => onPressNum(num)}
                 flex={1} 
-            />
-             <Button
-                type="num"
-                text="8"
-                onPress={() => null}
-                flex={1} 
-            />
-              <Button
-                type="num"
-                text="9"
-                onPress={() => null}
-                flex={1} 
-            />
+                /> 
+            ))}
+           
              <Button
                 type="operator"
                 text="X"
@@ -99,24 +117,16 @@ export default () => {
 
       {/* [4 ~ -] */}
       <View style={{ flexDirection: "row", width:"100%"}}>
-            <Button
+           {[4,5,6].map((num) => (
+                <Button
                 type="num"
-                text="4"
-                onPress={() => null}
+                text={`${num}`}
+                onPress={() => onPressNum(num)}
                 flex={1} 
-            />
-             <Button
-                type="num"
-                text="5"
-                onPress={() => null}
-                flex={1} 
-            />
-              <Button
-                type="num"
-                text="6"
-                onPress={() => null}
-                flex={1} 
-            />
+                /> 
+            ))}
+            
+            
              <Button
                 type="operator"
                 text="-"
@@ -128,24 +138,15 @@ export default () => {
 
       {/* [1 ~ +] */}
       <View style={{ flexDirection: "row", width:"100%"}}>
-            <Button
+            {[1,2,3].map((num) => (
+                <Button
                 type="num"
-                text="1"
-                onPress={() => null}
+                text={`${num}`}
+                onPress={() => onPressNum(num)}
                 flex={1} 
-            />
-             <Button
-                type="num"
-                text="2"
-                onPress={() => null}
-                flex={1} 
-            />
-              <Button
-                type="num"
-                text="3"
-                onPress={() => null}
-                flex={1} 
-            />
+                /> 
+            ))}
+            
              <Button
                 type="operator"
                 text="+"
@@ -159,7 +160,7 @@ export default () => {
             <Button
                 type="num"
                 text="0"
-                onPress={() => null}
+                onPress={() => onPressNum(num)}
                 flex={3} 
             />
              <Button
