@@ -2,8 +2,9 @@
 import { SafeAreaView, StyleSheet, } from 'react-native';
 import Calculator from './src/Calculator';
 
+
 export default function App() {
- 
+
   return (
     <SafeAreaView style={styles.container}>
       <Calculator/>
